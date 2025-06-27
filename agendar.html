@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agendar - Salão Unhas & Estilo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+      color: #4a148c;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #6a1b9a;
+      color: white;
+      padding: 1.8rem 1rem;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      box-shadow: 0 4px 8px rgba(106, 27, 154, 0.4);
+    }
+    main {
+      flex: 1;
+      max-width: 420px;
+      margin: 2rem auto 3rem;
+      padding: 2rem 1.5rem;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(106, 27, 154, 0.15);
+      backdrop-filter: blur(10px);
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #8e24aa;
+      font-size: 1rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      margin-bottom: 1.4rem;
+      border: 2px solid #d1c4e9;
+      border-radius: 10px;
+      font-size: 1.05rem;
+      transition: border-color 0.3s ease;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #6a1b9a;
+      box-shadow: 0 0 6px #6a1b9a;
+    }
+    button {
+      background: #8e24aa;
+      color: white;
+      border: none;
+      padding: 1rem;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 6px 12px rgba(142, 36, 170, 0.6);
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background: #6a1b9a;
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(106, 27, 154, 0.7);
+    }
+    .success-message {
+      background: #c8e6c9;
+      color: #256029;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      display: none;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    a.back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      text-decoration: none;
+      color: #8e24aa;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    a.back-link:hover {
+      color: #6a1b9a;
+      text-decoration: underline;
+    }
+
+    /* Responsividade */
+    @media (max-width: 480px) {
+      header {
+        font-size: 1.5rem;
+        padding: 1.5rem 1rem;
+      }
+      main {
+        margin: 1.5rem 1rem 2rem;
+        padding: 1.5rem 1rem;
+      }
+      input, select, button {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>Agendar Serviço</header>
+  <main>
+    <form id="agendamentoForm">
+      <label for="nome">Nome Completo</label>
+      <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required />
+
+      <label for="telefone">Telefone</label>
+      <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999" required pattern="\(\d{2}\) \d{4,5}-\d{4}" title="Digite no formato (11) 99999-9999" />
+
+      <label for="servico">Serviço</label>
+      <select id="servico" name="servico" required>
+        <option value="" disabled selected>Escolha um serviço</option>
+        <option value="manicure">Manicure - 1h</option>
+        <option value="pedicure">Pedicure - 1h</option>
+        <option value="alongamento">Alongamento de Unhas - 2h</option>
+        <option value="unhasdecoradas">Unhas Decoradas - 1.5h</option>
+      </select>
+
+      <label for="horario">Horário</label>
+      <input type="datetime-local" id="horario" name="horario" required min="" />
+
+      <button type="submit">Confirmar Agendamento</button>
+    </form>
+    <div class="success-message" id="successMessage" role="alert">Agendamento realizado com sucesso!</div>
+    <a href="index.html" class="back-link" aria-label="Voltar para página inicial">← Voltar para Home</a>
+  </main>
+
+  <script>
+    const form = document.getElementById('agendamentoForm');
+    const successMessage = document.getElementById('successMessage');
+    const horarioInput = document.getElementById('horario');
+
+    // Define min datetime para agora (não pode agendar no passado)
+    function setMinDateTime() {
+      const now = new Date();
+      const offset = now.getTimezoneOffset() * 60000;
+      const localISOTime = new Date(now - offset).toISOString().slice(0,16);
+      horarioInput.min = localISOTime;
+    }
+    setMinDateTime();
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Aqui você poderia enviar dados para servidor
+      // Agora só mostra mensagem de sucesso
+
+      form.style.display = 'none';
+      successMessage.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
